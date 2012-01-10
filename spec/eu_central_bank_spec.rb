@@ -48,6 +48,17 @@ describe "EuCentralBank" do
       @bank.get_rate("EUR", currency).should > 0
     end
   end
+  
+  it 'should set last_updated when the rates are downloaded' do
+    lu1 = @bank.last_updated
+    @bank.update_rates(@cache_path)
+    lu2 = @bank.last_updated
+    @bank.update_rates(@cache_path)
+    lu3 = @bank.last_updated
+    
+    lu1.should_not eq(lu2)
+    lu2.should_not eq(lu3)
+  end
 
   it "should return the correct exchange rates using exchange" do
     @bank.update_rates(@cache_path)
